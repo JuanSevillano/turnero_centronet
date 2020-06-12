@@ -15,7 +15,11 @@
       ]
     },
     "nsis": {
-      "oneClick": false
+      "oneClick": false,
+      "publish": [
+        "github",
+        "bintray"
+      ]
     }
   },
   "dependencies": {
