@@ -117,9 +117,9 @@ app.whenReady().then(() => {
     // Creating the windows 
     createWindow()
     // Check for new release 
-    if (!isDev) {
-        autoUpdater.checkForUpdates()
-    }
+
+    autoUpdater.checkForUpdates()
+
     // MacOs re-create windows when logo is clicked 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

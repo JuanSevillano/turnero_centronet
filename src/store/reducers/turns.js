@@ -28,14 +28,18 @@ const generateTurn = (state, payload) => {
 }
 
 const callTurn = (state, number) => {
-    const turn = state.turns.find((t, i) => i === +number)
-    turn.status = actionTypes.ORDER_DELIVERING
-    const updatedTurns = [...state.turns]
-    updatedTurns[number] = turn
-    sendMessage('call', { number: number, turn: updatedTurns[number] })
-    return updateObject(state, {
-        turns: updatedTurns
-    })
+    const turn = state.turns.find((t, i) => i === +number && t.status === actionTypes.ORDER_WAITING)
+    if (turn) {
+        turn.status = actionTypes.ORDER_DELIVERING
+        const updatedTurns = [...state.turns]
+        updatedTurns[number] = turn
+        sendMessage('call', { number: number, turn: updatedTurns[number] })
+        return updateObject(state, {
+            turns: updatedTurns
+        })
+    } else {
+        return state
+    }
 }
 
 const saveTurn = (state, number) => {
