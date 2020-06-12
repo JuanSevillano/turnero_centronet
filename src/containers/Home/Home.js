@@ -4,7 +4,6 @@ import classes from './Home.module.css'
 import Header from '../../components/Navigation/Header'
 
 const ipcRenderer = window.ipcRenderer
-
 const Home = props => {
 
     const initHandler = e => props.history.push("/admin")

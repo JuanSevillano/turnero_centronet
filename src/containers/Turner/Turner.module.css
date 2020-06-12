@@ -1,6 +1,6 @@
 .Turner {
   color: white;
-  background-color: orange;
+  background: url('../../assets/images/tunero.png');
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -9,10 +9,50 @@
 .Column {
   flex-direction: column;
   text-transform: uppercase;
+  flex-direction: column;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 2rem;
+  color: darkblue;
+}
+
+.Column ul {
+  margin-top: 129px;
+}
+
+.Column h2 {
+  opacity: 0;
 }
 
 .List {
   flex-direction: column;
   align-items: center;
-  font-size: 2rem;
+}
+
+.List div {
+  font-size: 4rem;
+}
+
+#Entrega div:last-child {
+  animation: heartbeat 2s linear 0s infinite alternate;
+}
+@keyframes heartbeat {
+  0% {
+    transform: scale(0.75);
+  }
+  20% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.75);
+  }
+  60% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.75);
+  }
+  100% {
+    transform: scale(0.75);
+  }
 }

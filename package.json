@@ -7,11 +7,19 @@
   "build": {
     "appId": "com.centronet.app",
     "productName": "Tunero",
+    "target": "NSIS",
     "directory": {
       "output": "release"
     },
-    "win": {
-      "icon": "build/icon.png"
+    "gh-publish": [
+      "github",
+      "bintray"
+    ],
+    "nsis": {
+      "installerIcon": "build/icon.png",
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true,
+      "oneClick": false
     }
   },
   "dependencies": {
@@ -20,6 +28,7 @@
     "@testing-library/user-event": "^7.1.2",
     "cross-env": "^7.0.2",
     "electron-is-dev": "^1.2.0",
+    "gh-publish": "^2.2.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -34,6 +43,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
+    "publish": "npm run react-build && npm run electron-build -p always gh-publish",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000/ && electron .\""
   },
   "eslintConfig": {
@@ -55,6 +65,8 @@
     "concurrently": "^5.2.0",
     "electron": "^9.0.2",
     "electron-builder": "^22.7.0",
+    "electron-log": "^4.2.1",
+    "electron-updater": "^4.3.1",
     "wait-on": "^5.0.1"
   }
 }

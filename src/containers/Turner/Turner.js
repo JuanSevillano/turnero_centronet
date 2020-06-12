@@ -60,7 +60,7 @@ const Turner = props => {
                     {waiting}
                 </ul >
             </section>
-            <section className={classes.Column}>
+            <section className={classes.Column} id={classes.Entrega}>
                 <h2>Listo para reclamar</h2>
                 <ul className={classes.List}>
                     {delivering}

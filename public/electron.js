@@ -1,9 +1,42 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const { autoUpdater } = require('electron-updater')
 
 const isDev = require('electron-is-dev')
 let mainWindow, secondWindow;
+
+if (isDev) {
+    autoUpdater.logger = require('electron-log')
+    autoUpdater.logger.transports.file.level = 'info'
+}
+
+autoUpdater.on('checking-for-update', () => {
+    console.log('Checking for update')
+})
+
+autoUpdater.on('udpate-available', info => {
+    console.log('update available: ', info.version)
+    console.log('update available: ', info.releaseDate)
+
+})
+
+autoUpdater.on('download-progress', progress => {
+    console.log('Download progress: ', progress.percent)
+
+})
+
+autoUpdater.on('udpate-downloaded', info => {
+    console.log('updated downloaded: ', info)
+    autoUpdater.quitAndInstall()
+})
+
+autoUpdater.on('error', info => {
+    console.log('update available: ', info.releaseDate)
+    autoUpdater.quitAndInstall()
+})
+
+
 
 function createWindow() {
     // Create the browser window.
@@ -42,8 +75,10 @@ function createWindow() {
     )
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
-    secondWindow.webContents.openDevTools()
+    if (isDev) {
+        mainWindow.webContents.openDevTools()
+        secondWindow.webContents.openDevTools()
+    }
 
     // Sending message to home, to make react redirect to /turner path
     secondWindow.webContents.on('dom-ready', () => {
@@ -76,23 +111,23 @@ function createWindow() {
     })
 
 }
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-    createWindow()
 
+// When Electron app is ready
+app.whenReady().then(() => {
+    // Creating the windows 
+    createWindow()
+    // Check for new release 
+    if (!isDev) {
+        autoUpdater.checkForUpdates()
+    }
+    // MacOs re-create windows when logo is clicked 
     app.on('activate', function () {
-        // On macOS it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 })
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-    // On macOS it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') app.quit()
 })
 
