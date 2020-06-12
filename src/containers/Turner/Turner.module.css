@@ -1,6 +1,7 @@
 .Turner {
   color: white;
   background: url('../../assets/images/tunero.png');
+  background-size: cover;
   display: flex;
   width: 100%;
   justify-content: space-around;
