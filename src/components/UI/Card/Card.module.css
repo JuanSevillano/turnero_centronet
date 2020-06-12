@@ -1,0 +1,8 @@
+.Card {
+  justify-content: center;
+  align-items: center;
+}
+
+.Card img {
+  width: 100%;
+}

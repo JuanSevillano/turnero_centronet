@@ -1,0 +1,29 @@
+.gridContainer {
+  padding: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1px 1px;
+  grid-template-areas: '. . .' '. . .' '. . .' '. . .';
+}
+
+.Btn {
+  border: none;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.Btn img {
+}
+
+@media all and (-ms-high-contrast: none) {
+  .gridContainer {
+    width: 100%;
+    display: -ms-grid;
+    -ms-grid-columns: repeat(3, 1fr);
+    -ms-grid-rows: repeat(4, 1fr);
+  }
+}
