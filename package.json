@@ -4,21 +4,17 @@
   "private": true,
   "main": "./public/electron.js",
   "homepage": "./",
+  "author": "@JuanSevillano",
   "build": {
-    "appId": "com.centronet.app",
-    "productName": "Tunero",
-    "target": "NSIS",
-    "directory": {
-      "output": "release"
+    "appId": "com.centronet.turnero",
+    "win": {
+      "icon": "build/icon.png",
+      "publish": [
+        "github",
+        "bintray"
+      ]
     },
-    "gh-publish": [
-      "github",
-      "bintray"
-    ],
     "nsis": {
-      "installerIcon": "build/icon.png",
-      "allowToChangeInstallationDirectory": true,
-      "perMachine": true,
       "oneClick": false
     }
   },
@@ -43,7 +39,8 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
-    "publish": "npm run react-build && npm run electron-build -p always gh-publish",
+    "gh-publish": "npm run react-build && npm run electron-build -p always",
+    "release": "build",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000/ && electron .\""
   },
   "eslintConfig": {
