@@ -1,11 +1,15 @@
 {
-  "name": "electron_react",
+  "name": "turnero",
   "version": "0.1.0",
   "private": true,
   "main": "./public/electron.js",
   "homepage": "./",
   "build": {
-    "appId": "com.centronet.turnero",
+    "appId": "com.centronet.app",
+    "productName": "Tunero",
+    "directory": {
+      "output": "release"
+    },
     "win": {
       "icon": "build/icon.png"
     }
