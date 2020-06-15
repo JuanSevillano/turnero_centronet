@@ -1,10 +1,15 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+
 const { autoUpdater } = require('electron-updater')
+autoUpdater.autoDownload = true
 
 const isDev = require('electron-is-dev')
 let mainWindow, secondWindow;
+// Auto-updater check for available updates
+const sendUpdateToFront = message => mainWindow.webContents.send('update', message)
+
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -42,10 +47,8 @@ function createWindow() {
     )
 
     // Open the DevTools.
-    if (isDev) {
-        mainWindow.webContents.openDevTools()
-        secondWindow.webContents.openDevTools()
-    }
+    mainWindow.webContents.openDevTools()
+    // secondWindow.webContents.openDevTools()
 
     // Sending message to home, to make react redirect to /turner path
     secondWindow.webContents.on('dom-ready', () => {
@@ -72,6 +75,10 @@ function createWindow() {
     mainWindow.webContents.on('dom-ready', () => {
         //console.log('Main win ready')
 
+
+        autoUpdater.checkForUpdatesAndNotify()
+        sendUpdateToFront('checking updates...')
+
         mainWindow.webContents.on('waiting', ({ number, turn }) => {
             console.log(number, turn)
         })
@@ -83,9 +90,7 @@ function createWindow() {
 app.whenReady().then(() => {
     // Creating the windows 
     createWindow()
-    // Check for new release 
-
-    autoUpdater.checkForUpdatesAndNotify()
+    // Check for new release
 
     // MacOs re-create windows when logo is clicked 
     app.on('activate', function () {
@@ -97,9 +102,6 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
-
-// Auto-updater check for available updates
-const sendUpdateToFront = message => mainWindow.webContents.send('update', message)
 
 if (isDev) {
     autoUpdater.logger = require('electron-log')
@@ -127,5 +129,6 @@ autoUpdater.on('udpate-downloaded', info => {
 
 autoUpdater.on('error', info => {
     console.log('update available: ', info.releaseDate)
+    sendUpdateToFront('error')
     //autoUpdater.quitAndInstall()
 })
