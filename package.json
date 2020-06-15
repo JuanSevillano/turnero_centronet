@@ -1,24 +1,26 @@
 {
   "name": "turnero",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "./public/electron.js",
   "homepage": "./",
   "author": "@JuanSevillano",
+  "description": "Control de turnos para restaurantes",
   "build": {
     "appId": "com.centronet.turnero",
     "win": {
       "icon": "build/icon.png",
       "publish": [
-        "github",
-        "bintray"
+        {
+          "provider": "github",
+          "owner": "juanSevillano",
+          "repo": "turnero_centronet",
+          "token": "04ca69c8a285a65bd324e13729dfcef686fe40df",
+          "private": true
+        }
       ]
     },
     "nsis": {
-      "oneClick": false,
-      "publish": [
-        "github",
-        "bintray"
-      ]
+      "oneClick": false
     }
   },
   "dependencies": {
@@ -43,8 +45,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
-    "publish": "npm run react-build && npm run electron-build -p always",
-    "release": "build",
+    "publish": "npm run react-build && npm run electron-build --win -p always",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000/ && electron .\""
   },
   "eslintConfig": {

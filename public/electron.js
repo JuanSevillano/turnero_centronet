@@ -5,39 +5,6 @@ const { autoUpdater } = require('electron-updater')
 
 const isDev = require('electron-is-dev')
 let mainWindow, secondWindow;
-
-if (isDev) {
-    autoUpdater.logger = require('electron-log')
-    autoUpdater.logger.transports.file.level = 'info'
-}
-
-autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for update')
-})
-
-autoUpdater.on('udpate-available', info => {
-    console.log('update available: ', info.version)
-    console.log('update available: ', info.releaseDate)
-
-})
-
-autoUpdater.on('download-progress', progress => {
-    console.log('Download progress: ', progress.percent)
-
-})
-
-autoUpdater.on('udpate-downloaded', info => {
-    console.log('updated downloaded: ', info)
-    autoUpdater.quitAndInstall()
-})
-
-autoUpdater.on('error', info => {
-    console.log('update available: ', info.releaseDate)
-    autoUpdater.quitAndInstall()
-})
-
-
-
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -118,7 +85,7 @@ app.whenReady().then(() => {
     createWindow()
     // Check for new release 
 
-    autoUpdater.checkForUpdates()
+    autoUpdater.checkForUpdatesAndNotify()
 
     // MacOs re-create windows when logo is clicked 
     app.on('activate', function () {
@@ -131,5 +98,34 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// Auto-updater check for available updates
+const sendUpdateToFront = message => mainWindow.webContents.send('update', message)
+
+if (isDev) {
+    autoUpdater.logger = require('electron-log')
+    autoUpdater.logger.transports.file.level = 'info'
+}
+
+autoUpdater.on('checking-for-update', () => {
+    sendUpdateToFront('checking')
+})
+
+autoUpdater.on('udpate-available', info => {
+    sendUpdateToFront(info)
+})
+
+autoUpdater.on('download-progress', progress => {
+    console.log('Download progress: ', progress.percent)
+    sendUpdateToFront(progress)
+})
+
+autoUpdater.on('udpate-downloaded', info => {
+    console.log('updated downloaded: ', info)
+    sendUpdateToFront(info)
+    autoUpdater.quitAndInstall()
+})
+
+autoUpdater.on('error', info => {
+    console.log('update available: ', info.releaseDate)
+    //autoUpdater.quitAndInstall()
+})

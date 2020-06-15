@@ -9,8 +9,6 @@ import Turner from './containers/Turner/Turner'
 import Admin from './containers/Admin/Admin'
 import Option from './components/Option/Option'
 
-import Header from './components/Navigation/Header'
-
 import classes from './App.module.css';
 
 import reducer from './store/reducers/turns'

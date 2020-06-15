@@ -6,8 +6,6 @@ window.remoten = remote
 
 window.addEventListener('DOMContentLoaded', () => {
 
-
-
     setTimeout(() => {
         document.getElementById('minimize-button').addEventListener('click', () => {
             remote.getCurrentWindow().minimize()

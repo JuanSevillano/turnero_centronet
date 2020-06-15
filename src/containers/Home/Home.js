@@ -11,6 +11,10 @@ const Home = props => {
     // When is secondScreen it receives the url to be loaded 
     ipcRenderer.on('onLocation', (event, { url }) => { props.history.push(url) })
 
+    ipcRenderer.on('update', (e, data) => {
+        console.log('Update... ', data)
+    })
+
     return (
         <div onClick={initHandler} className={classes.Home}>
             <Header unvisible />
