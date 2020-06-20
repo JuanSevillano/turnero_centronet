@@ -1,0 +1,55 @@
+div,
+ul,
+li,
+a,
+html,
+body,
+section,
+article,
+main,
+span,
+button,
+input,
+img,
+video,
+iframe,
+label,
+form,
+nav,
+header,
+footer {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  text-transform: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+}

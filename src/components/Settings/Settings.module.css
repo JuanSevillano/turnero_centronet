@@ -1,0 +1,148 @@
+.Settings {
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Wrapper {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+.TextInfo img {
+  margin-left: 20px;
+  max-height: 30px;
+}
+
+.TextInfo {
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.Recuperar {
+  max-height: 50px;
+}
+/* Switch css*/
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 23px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Reload button css */
+
+.SaveWrapper {
+    padding: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.animate {
+  -webkit-animation: rotate 1.5s linear infinite;
+  animation: rotate 1.5s linear infinite;
+}
+.reloadSingle {
+  display: inline-block;
+  position: relative;
+  height: 2em;
+  padding: 0.25em;
+  width: 2em;
+}
+.reloadSingle:before,
+.reloadSingle:after {
+  content: '';
+  display: block;
+}
+.reloadSingle:before {
+  border-color: transparent black black black;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.125em;
+  height: 1.5em;
+  width: 1.5em;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.reloadSingle:after {
+  border-color: transparent transparent transparent black;
+  border-style: solid;
+  border-width: 0.3125em 0 0.3125em 0.5em;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+}
+
+@-webkit-keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

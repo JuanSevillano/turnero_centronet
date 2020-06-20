@@ -1,0 +1,24 @@
+{
+  "productName": "Turnero - centronet",
+  "appId": "com.centronet.turnero",
+  "directories": {
+    "output": "app/${version}"
+  },
+  "publish": [
+    {
+      "provider": "github",
+      "private": true,
+      "owner": "juanSevillano",
+      "repo": "turnero_centronet",
+      "token": "04ca69c8a285a65bd324e13729dfcef686fe40df"
+    }
+  ],
+  "win": {
+    "publish": ["github"],
+    "icon": "build/icons/icon.ico"
+  },
+  "nsis": {
+    "publish": ["github"],
+    "oneClick": false
+  }
+}

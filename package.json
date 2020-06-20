@@ -1,0 +1,60 @@
+{
+  "name": "turnero",
+  "version": "0.5.5",
+  "main": "./public/electron.js",
+  "homepage": "./",
+  "author": "@JuanSevillano",
+  "description": "Control de turnos para restaurantes",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JuanSevillano/turnero_centronet.git"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "cross-env": "^7.0.2",
+    "electron-is-dev": "^1.2.0",
+    "electron-updater": "^4.3.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build",
+    "publish": "npm run react-build && npm run electron-build --publish always",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000/ && electron .\""
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "electron": "^9.0.2",
+    "electron-builder": "^22.7.0",
+    "electron-log": "^4.2.1",
+    "electron-updater": "^4.3.1",
+    "wait-on": "^5.0.1"
+  }
+}
