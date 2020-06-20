@@ -15,10 +15,6 @@ const Home = props => {
         console.log('Update... ', data)
     })
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     return (
         <div onClick={initHandler} className={classes.Home}>
             <Header unvisible />

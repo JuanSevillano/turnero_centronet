@@ -12,7 +12,6 @@
   flex-wrap: wrap;
   justify-content: space-around;
 }
-<<<<<<< HEAD
 .Ajustes {
   margin-right: 10px !important;
   justify-content: center;
@@ -20,8 +19,6 @@
 .Ajustes img {
   width: 50%;
 }
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 
 .Back {
   content: ' ';
@@ -44,9 +41,6 @@
 }
 
 .window_corner_buttons span {
-<<<<<<< HEAD
   justify-content: center;
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
   margin-right: 20px;
 }

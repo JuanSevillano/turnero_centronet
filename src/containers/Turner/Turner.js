@@ -49,15 +49,12 @@ const Turner = props => {
             return
         })
 
-<<<<<<< HEAD
         ipc.on('all', (event, message) => {
             console.log('llegaron', message)
             props.updateTurns(message)
             return
         })
 
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     }, [])
 
     return (
@@ -89,10 +86,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateTurn: message => dispatch(actions.updateTurn(message)),
-<<<<<<< HEAD
         updateTurns: turns => dispatch(actions.updateTurns(turns))
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     }
 }
 

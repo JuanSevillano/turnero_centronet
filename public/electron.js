@@ -1,6 +1,5 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require('electron')
-<<<<<<< HEAD
 
 const path = require('path')
 const fs = require('fs')
@@ -25,18 +24,6 @@ if (isDev) {
 }
 
 let mainWindow, secondWindow;
-=======
-const path = require('path')
-
-const { autoUpdater } = require('electron-updater')
-autoUpdater.autoDownload = true
-
-const isDev = require('electron-is-dev')
-let mainWindow, secondWindow;
-// Auto-updater check for available updates
-const sendUpdateToFront = message => mainWindow.webContents.send('update', message)
-
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -61,11 +48,6 @@ function createWindow() {
         }
     })
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     // and load the index.html of the app.
     const localUrl = 'http://localhost:3000/'
     mainWindow.loadURL(
@@ -84,36 +66,11 @@ function createWindow() {
     secondWindow.webContents.on('dom-ready', () => {
 
         secondWindow.webContents.send('onLocation', { url: '/turner' })
-<<<<<<< HEAD
         ipcCommunication()
 
     })
 
     mainWindow.webContents.on('dom-ready', () => {
-=======
-        ipcMain.on('waiting', (event, message) => {
-            secondWindow.webContents.send('waiting', message)
-            return
-        })
-
-        ipcMain.on('call', (e, message) => {
-            secondWindow.webContents.send('call', message)
-        })
-
-        ipcMain.on('save', (e, message) => {
-            secondWindow.webContents.send('save', message)
-        })
-
-    })
-
-
-
-
-    mainWindow.webContents.on('dom-ready', () => {
-        //console.log('Main win ready')
-
-
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
         autoUpdater.checkForUpdatesAndNotify()
         sendUpdateToFront('checking updates...')
 
@@ -124,7 +81,6 @@ function createWindow() {
 
 }
 
-<<<<<<< HEAD
 // This method is executed when the second screen's DOM element are loaded
 const ipcCommunication = () => {
     ipcMain.on('waiting', (event, message) => {
@@ -153,8 +109,6 @@ const ipcCommunication = () => {
     })
 }
 
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 // When Electron app is ready
 app.whenReady().then(() => {
     // Creating the windows 
@@ -172,16 +126,8 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-<<<<<<< HEAD
 
 // Autp-updater
-=======
-if (isDev) {
-    autoUpdater.logger = require('electron-log')
-    autoUpdater.logger.transports.file.level = 'info'
-}
-
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 autoUpdater.on('checking-for-update', () => {
     sendUpdateToFront('checking')
 })
@@ -198,19 +144,11 @@ autoUpdater.on('download-progress', progress => {
 autoUpdater.on('udpate-downloaded', info => {
     console.log('updated downloaded: ', info)
     sendUpdateToFront(info)
-<<<<<<< HEAD
     autoUpdater.quitAndInstall(true, true)
-=======
-    autoUpdater.quitAndInstall()
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 })
 
 autoUpdater.on('error', info => {
     console.log('update available: ', info.releaseDate)
-<<<<<<< HEAD
     sendUpdateToFront(info)
-=======
-    sendUpdateToFront('error')
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     //autoUpdater.quitAndInstall()
 })
