@@ -1,13 +1,37 @@
 {
   "name": "turnero",
+<<<<<<< HEAD
   "version": "0.5.5",
+=======
+  "version": "0.5.2",
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
   "main": "./public/electron.js",
   "homepage": "./",
   "author": "@JuanSevillano",
   "description": "Control de turnos para restaurantes",
+<<<<<<< HEAD
   "repository": {
     "type": "git",
     "url": "https://github.com/JuanSevillano/turnero_centronet.git"
+=======
+  "build": {
+    "appId": "com.centronet.turnero",
+    "win": {
+      "icon": "build/icon.png",
+      "publish": [
+        {
+          "provider": "github",
+          "owner": "juanSevillano",
+          "repo": "turnero_centronet",
+          "token": "04ca69c8a285a65bd324e13729dfcef686fe40df",
+          "private": true
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false
+    }
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -21,8 +45,12 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+<<<<<<< HEAD
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
+=======
+    "redux": "^4.0.5"
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -31,7 +59,11 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
+<<<<<<< HEAD
     "publish": "npm run react-build && npm run electron-build --publish always",
+=======
+    "publish": "npm run react-build && npm run electron-build --win -p always",
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000/ && electron .\""
   },
   "eslintConfig": {

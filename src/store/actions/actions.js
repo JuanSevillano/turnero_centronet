@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import * as actionTypes from './actionTypes'
 const ipc = window.ipcRenderer
 
+=======
+import * as actionTypes from './actionTypes';
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 
 export const generateTurn = () => ({
     type: actionTypes.GENERATE_TURN
@@ -21,6 +25,7 @@ export const updateTurn = (number, status) => ({
     payload: { number, status }
 })
 
+<<<<<<< HEAD
 export const updateTurns = prevState => ({
     type: actionTypes.UPDATE_TURNS,
     payload: prevState
@@ -57,4 +62,6 @@ export const loadBackup = () => {
     }
 }
 
+=======
+>>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 
