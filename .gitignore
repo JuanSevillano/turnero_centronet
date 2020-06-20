@@ -11,10 +11,7 @@
 
 #release
 /dist
-<<<<<<< HEAD
 /app
-=======
->>>>>>> 7c44cbce0d38351fda9f3ad2f5aed1781432bae5
 
 # misc
 .DS_Store
