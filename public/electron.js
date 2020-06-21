@@ -98,12 +98,24 @@ const ipcCommunication = () => {
         return
     })
 
+    ipcMain.on('all', (e, message) => {
+        secondWindow.webContents.send('backup', message)
+        return
+    })
+
     ipcMain.on('backup', (e, message) => {
         readFile(dataLocation, 'utf-8')
             .then(file => {
-                const prevState = JSON.stringify(file)
+                const prevState = JSON.parse(file)
                 mainWindow.webContents.send('backup_loaded', prevState)
             })
+            .catch(err => console.log(err))
+        return
+    })
+
+    ipcMain.on('backup_save', (e, message) => {
+        writeFile(dataLocation, JSON.stringify(message))
+            .then(file => mainWindow.webContents.send('backup_saved', message))
             .catch(err => console.log(err))
         return
     })

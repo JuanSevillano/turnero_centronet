@@ -42,7 +42,7 @@ const Option = props => {
         }
     }
 
-    useEffect(() => { checkOption() }, [])
+    useEffect(() => { checkOption() }, [props.loaded])
 
 
     return (
@@ -56,7 +56,8 @@ const Option = props => {
 const mapStateToProps = state => {
     return {
         orders: state.turns,
-        turn: state.currentTurn
+        turn: state.currentTurn,
+        loaded: state.backup
     }
 }
 

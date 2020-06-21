@@ -43,16 +43,8 @@ export const loadBackupFailed = err => ({
 export const loadBackup = () => {
     return dispatch => {
         dispatch(loadBackupStart())
-        // storage.getAll(function (error, data) {
-        //     if (error) throw error;
-        //     console.log('myData', data);
-        //     dispatch(loadBackupSuccessed(data))
-        // })
         ipc.on('backup_loaded', (e, data) => {
-
             dispatch(loadBackupSuccessed(data))
-
-
         })
     }
 }

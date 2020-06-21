@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import classes from './Admin.module.css'
 import { useHistory } from 'react-router-dom'
 
@@ -17,6 +18,8 @@ const Admin = props => {
         history.push(goTo)
     }
 
+    useEffect(() => { }, [props]);
+
     return (
         <div className={classes.Admin}>
             <Header />
@@ -30,5 +33,8 @@ const Admin = props => {
     )
 }
 
+const mapStateToProps = state => ({
+    current: state.currentTurn
+})
 
-export default Admin
+export default connect(mapStateToProps)(Admin)

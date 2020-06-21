@@ -16,7 +16,10 @@ const sendMessage = (channel, message) => {
     }
 }
 
-const savePersistance = state => sendMessage('backup_save', state)
+const savePersistance = state => {
+    console.log(state)
+    sendMessage('backup_save', state)
+}
 
 const generateTurn = (state, payload) => {
     const number = state.turns.findIndex((t, i) => i !== 0 ? t.status === actionTypes.ORDER_FREE : null)
@@ -39,7 +42,8 @@ const callTurn = (state, number) => {
         updatedTurns[number] = turn
         sendMessage('call', { number: number, turn: updatedTurns[number] })
         const newOne = updateObject(state, {
-            turns: updatedTurns
+            turns: updatedTurns,
+            currentTurn: +number
         })
         savePersistance(newOne)
         return newOne
@@ -76,13 +80,14 @@ const updateTurn = (state, message) => {
 
 const loadBackupStart = state => {
     sendMessage('backup', 'start')
+    console.log('paso')
     return updateObject(state, { loading: true })
 }
 
 const setPreviousState = (state, prevState) => {
-    sendMessage('all', prevState)
-    const updated = JSON.parse(prevState)
-    return updateObject(state, updated)
+    const newState = { ...prevState, backup: true }
+    sendMessage('all', newState)
+    return updateObject(state, newState)
 }
 
 const loadBackupFailed = (state, err) => {
@@ -90,7 +95,6 @@ const loadBackupFailed = (state, err) => {
 }
 
 const reducer = (state = initialState, { type, payload }) => {
-
     switch (type) {
         case actionTypes.GENERATE_TURN: return generateTurn(state, payload)
         case actionTypes.CALL_TURN: return callTurn(state, payload)

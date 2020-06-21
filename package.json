@@ -7,7 +7,8 @@
   "description": "Control de turnos para restaurantes",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JuanSevillano/turnero_centronet.git"},
+    "url": "https://github.com/JuanSevillano/turnero_centronet.git"
+  },
   "build": {
     "appId": "com.centronet.turnero",
     "win": {
