@@ -7,8 +7,14 @@ import * as actions from '../../store/actions/actions'
 
 import Header from '../../components/Navigation/Header'
 
+import useAudio from '../../components/Player/useAudio'
+import sound from '../../assets/sound/call.mp3'
+
 const ipc = window.ipcRenderer
 const Turner = props => {
+
+
+    const [playing, toggle] = useAudio(sound)
 
     const waiting = props.turns.map((el, i) => {
         if (el.status === actionTypes.ORDER_WAITING) {
@@ -41,6 +47,7 @@ const Turner = props => {
 
         ipc.on('call', (event, message) => {
             props.updateTurn(message)
+            toggle()
             return
         })
 
@@ -60,12 +67,12 @@ const Turner = props => {
     return (
         <div className={classes.Turner}>
             <Header />
-            <section className={classes.Column}>
+            {/* <section className={classes.Column}>
                 <h2>En preparación</h2>
                 <ul className={classes.List}>
                     {waiting}
                 </ul >
-            </section>
+            </section> */}
             <section className={classes.Column} id={classes.Entrega}>
                 <h2>Listo para reclamar</h2>
                 <ul className={classes.List}>

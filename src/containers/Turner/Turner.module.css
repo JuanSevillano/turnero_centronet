@@ -1,6 +1,6 @@
 .Turner {
   color: white;
-  background: url('../../assets/images/tunero.png');
+  background: url('../../assets/images/tunero.jpg');
   background-size: cover;
   display: flex;
   width: 100%;
@@ -14,7 +14,8 @@
   text-transform: uppercase;
   font-weight: 900;
   font-size: 2rem;
-  color: darkblue;
+  color: white;
+  text-shadow: 0px 0px 5px #FFFFFF;
 }
 
 .Column ul {

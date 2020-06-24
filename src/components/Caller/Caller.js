@@ -4,7 +4,6 @@ import classes from './Caller.module.css'
 
 import Keyboard from '../Keyboard/Keyboard'
 
-
 const Caller = props => {
 
     const [number, setNumber] = useState('')
