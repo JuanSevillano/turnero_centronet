@@ -9,7 +9,9 @@ const Current = (props) => {
 				{props.turn ? null : <p>Sin turno</p>}
 				{props.turn ? <p className={classes.Number}> {props.turn} </p> : null}
 			</section>
-			<section>
+			<section className={classes.Controllers}>
+				<button></button>
+
 			</section>
 		</div>
 	)

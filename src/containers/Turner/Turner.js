@@ -16,16 +16,17 @@ const Turner = props => {
 
     const [playing, toggle] = useAudio(sound)
 
-    const waiting = props.turns.map((el, i) => {
-        if (el.status === actionTypes.ORDER_WAITING) {
+    // const waiting = props.turns.map((el, i) => {
+    //     if (el.status === actionTypes.ORDER_WAITING) {
 
-            return (
-                <div key={i}>
-                    {i}
-                </div>
-            )
-        }
-    })
+    //         return (
+    //             <div key={i}>
+    //                 {i}
+    //             </div>
+    //         )
+    //     }
+    // })
+    
     const delivering = props.turns.map((el, i) => {
         if (el.status === actionTypes.ORDER_DELIVERING) {
 
@@ -74,7 +75,6 @@ const Turner = props => {
                 </ul >
             </section> */}
             <section className={classes.Column} id={classes.Entrega}>
-                <h2>Listo para reclamar</h2>
                 <ul className={classes.List}>
                     {delivering}
                 </ul >
