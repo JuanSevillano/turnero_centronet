@@ -6,9 +6,12 @@ import { useHistory } from 'react-router-dom'
 import Header from '../../components/Navigation/Header'
 import Card from '../../components/UI/Card/Card'
 
-const Admin = props => {
+import * as actionTypes from '../../store/actions/actionTypes'
+import * as actions from '../../store/actions/actions'
 
-    // const peer = new SimplePeer({ initiator: true, trickle: false })
+const ipc = window.ipcRenderer
+
+const Admin = props => {
 
     const history = useHistory()
     const path = history.location.pathname
@@ -18,7 +21,12 @@ const Admin = props => {
         history.push(goTo)
     }
 
-    useEffect(() => { }, [props]);
+    useEffect(() => {
+        ipc.on('backup_current', (e, data) => {
+            console.log('llega ', data)
+            props.updateCurrent(data)
+        })
+    }, [props]);
 
     return (
         <div className={classes.Admin}>
@@ -37,4 +45,8 @@ const mapStateToProps = state => ({
     current: state.currentTurn
 })
 
-export default connect(mapStateToProps)(Admin)
+const mapDispatchToProps = dispatch => ({
+    updateCurrent: lastGenerated => dispatch(actions.updateCurrent(lastGenerated))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin)

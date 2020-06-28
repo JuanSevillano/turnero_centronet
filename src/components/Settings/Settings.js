@@ -22,13 +22,8 @@ const Settings = props => {
     const getPreviousState = e => {
         setLoadPrevious(true)
         props.getBackup()
-        // setTimeout(() => history.push('/admin'), 1000)
+        setTimeout(() => history.push('/admin'), 500)
     }
-
-
-    ipc.on('backup', (e, data) => {
-        console.log('backup llega al otro lado... ', data)
-    })
 
     return (
         <>

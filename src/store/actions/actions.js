@@ -6,6 +6,11 @@ export const generateTurn = () => ({
     type: actionTypes.GENERATE_TURN
 })
 
+export const updateCurrent = number => ({
+    type: actionTypes.UPDATE_CURRENT,
+    payload: number
+})
+
 export const callTurn = number => ({
     type: actionTypes.CALL_TURN,
     payload: number
