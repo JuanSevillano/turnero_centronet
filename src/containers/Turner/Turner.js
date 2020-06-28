@@ -53,6 +53,7 @@ const Turner = props => {
         })
 
         ipc.on('save', (event, message) => {
+            console.log('message', message)
             props.updateTurn(message)
             return
         })

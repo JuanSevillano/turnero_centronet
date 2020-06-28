@@ -54,6 +54,7 @@ const saveTurn = (state, number) => {
     turn.status = actionTypes.ORDER_DELIVERED
     const updatedTurns = [...state.turns]
     updatedTurns[number] = turn
+    console.log('numero', number)
     sendMessage('save', { number: number, turn: updatedTurns[number] })
     const newCurrent = +number
     const newOne = updateObject(state, {
@@ -65,6 +66,7 @@ const saveTurn = (state, number) => {
 
 const updateTurn = (state, message) => {
     const turn = message.number.turn
+    console.log('llega a turns el turn ', turn)
     const updatedTurns = [...state.turns]
     updatedTurns[message.number.number] = turn
     const newOne = updateObject(state, {
@@ -81,7 +83,6 @@ const loadBackupStart = state => {
 
 const setPreviousState = (state, prevState) => {
     const newState = { ...prevState, backup: true }
-    // console.log('new state....', prevState)
     return updateObject(state, newState)
 }
 

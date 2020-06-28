@@ -13,6 +13,9 @@
 /dist
 /app
 
+# persistance data
+/store/persistence.json
+
 # misc
 .DS_Store
 .env.local

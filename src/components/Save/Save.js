@@ -8,11 +8,24 @@ const Save = (props) => {
 	const [number, setNumber] = useState('')
 	const history = useHistory()
 
+
+
+	let contador = 0
+	if (number) {
+		const couting = setInterval(() => {
+			contador++
+			if (contador > 2) {
+				props.save(number)
+				history.push('/admin')
+				clearInterval(couting)
+			}
+		}, 1000)
+	}
+
 	const numberClickHandler = value => {
 
 		if (value === "enter") {
 			props.save(number)
-			// ipcRenderer.send('call', number)
 			setNumber('')
 			history.push('/admin')
 
@@ -30,6 +43,7 @@ const Save = (props) => {
 				updatedNumber = value
 				setNumber(updatedNumber)
 			}
+
 		}
 	}
 	return (
