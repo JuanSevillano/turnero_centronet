@@ -9,6 +9,8 @@ import classes from './Settings.module.css'
 import sonido from '../../assets/speaker.svg'
 import backup from '../../assets/recuperar.svg'
 
+const ipc = window.ipcRenderer
+
 const Settings = props => {
 
     const history = useHistory()
@@ -20,8 +22,13 @@ const Settings = props => {
     const getPreviousState = e => {
         setLoadPrevious(true)
         props.getBackup()
-        setTimeout(() => history.push('/admin'), 1000)
+        // setTimeout(() => history.push('/admin'), 1000)
     }
+
+
+    ipc.on('backup', (e, data) => {
+        console.log('backup llega al otro lado... ', data)
+    })
 
     return (
         <>

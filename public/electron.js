@@ -99,6 +99,7 @@ const ipcCommunication = () => {
     })
 
     ipcMain.on('all', (e, message) => {
+        console.log('llega todito')
         secondWindow.webContents.send('backup', message)
         return
     })
@@ -107,15 +108,24 @@ const ipcCommunication = () => {
         readFile(dataLocation, 'utf-8')
             .then(file => {
                 const prevState = JSON.parse(file)
+
+                const delivering = prevState.turns
+                    .map((t, i) => ({ ...t, number: i }))
+                    .filter(t => t.status === 'ORDER_DELIVERING')
+
+                console.log('Los delivering transformed son: ', delivering)
+
+                secondWindow.webContents.send('backup_delivering', delivering)
                 mainWindow.webContents.send('backup_loaded', prevState)
-            })
-            .catch(err => console.log(err))
+
+            }).catch(err => console.log(err))
+
         return
     })
 
     ipcMain.on('backup_save', (e, message) => {
         writeFile(dataLocation, JSON.stringify(message))
-            .then(file => mainWindow.webContents.send('backup_saved', message))
+            .then(file => console.log('data saved'))
             .catch(err => console.log(err))
         return
     })

@@ -80,18 +80,31 @@ const updateTurn = (state, message) => {
 
 const loadBackupStart = state => {
     sendMessage('backup', 'start')
-    console.log('paso')
     return updateObject(state, { loading: true })
 }
 
 const setPreviousState = (state, prevState) => {
     const newState = { ...prevState, backup: true }
     sendMessage('all', newState)
+    // console.log('new state....', prevState)
     return updateObject(state, newState)
 }
 
 const loadBackupFailed = (state, err) => {
     return updateObject(state, { error: err })
+}
+
+const updateTurns = (state, someTurns) => {
+    const updatedTurns = [...state.turns]
+
+    for (let i = 0; i < someTurns.length; i++) {
+        const { number, status } = someTurns[i]
+        updatedTurns[number].status = status
+    }
+
+    return updateObject(state, {
+        turns: updatedTurns
+    })
 }
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -100,6 +113,7 @@ const reducer = (state = initialState, { type, payload }) => {
         case actionTypes.CALL_TURN: return callTurn(state, payload)
         case actionTypes.SAVE_TURN: return saveTurn(state, payload)
         case actionTypes.UPDATE_TURN: return updateTurn(state, payload)
+        case actionTypes.UPDATE_TURNS: return updateTurns(state, payload)
         case actionTypes.LOAD_BACKUP_START: return loadBackupStart(state)
         case actionTypes.LOAD_BACKUP_SUCCESSED: return setPreviousState(state, payload)
         case actionTypes.LOAD_BACKUP_FAILED: return loadBackupFailed(state, payload)

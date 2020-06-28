@@ -21,9 +21,9 @@ export const updateTurn = (number, status) => ({
     payload: { number, status }
 })
 
-export const updateTurns = prevState => ({
+export const updateTurns = someTurns => ({
     type: actionTypes.UPDATE_TURNS,
-    payload: prevState
+    payload: someTurns
 })
 
 export const loadBackupStart = () => ({

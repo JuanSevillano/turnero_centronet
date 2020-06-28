@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import classes from './Turner.module.css'
 
@@ -26,7 +26,7 @@ const Turner = props => {
     //         )
     //     }
     // })
-    
+
     const delivering = props.turns.map((el, i) => {
         if (el.status === actionTypes.ORDER_DELIVERING) {
 
@@ -57,8 +57,7 @@ const Turner = props => {
             return
         })
 
-        ipc.on('all', (event, message) => {
-            console.log('llegaron', message)
+        ipc.on('backup_delivering', (event, message) => {
             props.updateTurns(message)
             return
         })
