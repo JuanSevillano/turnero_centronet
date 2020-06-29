@@ -48,13 +48,20 @@ const Turner = props => {
 
         ipc.on('call', (event, message) => {
             props.updateTurn(message)
-            toggle()
+            if (props.soundOn) {
+                toggle()
+            }
             return
         })
 
         ipc.on('save', (event, message) => {
-            console.log('message', message)
             props.updateTurn(message)
+            return
+        })
+
+
+        ipc.on('audio_toggle', (event, message) => {
+            props.toggleAudio(message)
             return
         })
 
@@ -86,12 +93,14 @@ const Turner = props => {
 const mapStateToProps = state => {
     return {
         turns: state.turns,
-        turn: state.currentTurn
+        turn: state.currentTurn,
+        soundOn: state.soundOn
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        toggleAudio: bool => dispatch(actions.toggleAudio(bool)),
         updateTurn: message => dispatch(actions.updateTurn(message)),
         updateTurns: turns => dispatch(actions.updateTurns(turns))
     }

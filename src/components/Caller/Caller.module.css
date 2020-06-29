@@ -20,4 +20,18 @@
     background-repeat: no-repeat;
     background-position: center;
     max-width: 50%;
+    animation: altura 300ms linear 0s 1 alternate;
 }
+
+
+@keyframes altura {
+    0% {
+      padding: 0;
+      height: 0;
+    }
+    100% {
+      padding: 20px;
+      height: auto;
+    }
+  }
+  

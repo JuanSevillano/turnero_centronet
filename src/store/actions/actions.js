@@ -55,3 +55,12 @@ export const loadBackup = () => {
 }
 
 
+export const toggleAudio = bool => ({
+    type: actionTypes.TOGGLE_AUDIO,
+    payload: bool
+})
+
+export const setInitial = number => ({
+    type: actionTypes.SET_INITIAL,
+    payload: number
+})

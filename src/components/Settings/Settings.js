@@ -15,6 +15,7 @@ const Settings = props => {
 
     const history = useHistory()
     const [loadPrevious, setLoadPrevious] = useState(false)
+    const [soundOn, setSoundOn] = useState(true)
 
     const misClases = [classes.slider, classes.round].join(' ')
     const isLoading = loadPrevious ? [classes.reloadSingle, classes.animate].join(' ') : classes.reloadSingle
@@ -23,6 +24,12 @@ const Settings = props => {
         setLoadPrevious(true)
         props.getBackup()
         setTimeout(() => history.push('/admin'), 500)
+    }
+
+    const toogle = e => {
+        const val = !soundOn
+        setSoundOn(val)
+        ipc.send('audio_toggle', val)
     }
 
     return (
@@ -35,8 +42,8 @@ const Settings = props => {
                         <p>Habilitar sonido </p>
                         <img src={sonido} alt="habilitar sonido" />
                     </div>
-                    <label className={classes.switch}>
-                        <input type="checkbox" />
+                    <label onClick={toogle} className={classes.switch}>
+                        <input defaultChecked type="checkbox" />
                         <span className={misClases}></span>
                     </label>
                 </section>

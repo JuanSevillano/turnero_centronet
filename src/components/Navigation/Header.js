@@ -13,18 +13,19 @@ const Header = props => {
     const isTurner = history.location.pathname.includes('turner')
     const isVisible = props.unvisible ? '0' : '1'
 
+    const minimize = () => remote.getCurrentWindow().minimize()
+    const quit = () => remote.app.quit()
+
+
+
     useEffect(() => {
         if (!isTurner) {
-            document.getElementById('minimize-button').addEventListener('click', () => {
-                remote.getCurrentWindow().minimize()
-            })
-            document.getElementById('close-button').addEventListener('click', () => {
-                remote.app.quit()
-            })
+            document.getElementById('minimize-button').addEventListener('click', minimize)
+            document.getElementById('close-button').addEventListener('click', quit)
         }
         return () => {
-            document.getElementById('minimize-button')
-            document.getElementById('close-button')
+            document.getElementById('minimize-button').removeEventListener('click', minimize)
+            document.getElementById('close-button').removeEventListener('clicks', quit)
         };
     }, []);
 

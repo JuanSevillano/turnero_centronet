@@ -7,7 +7,8 @@ const initialState = {
     turns: initialTurns,
     currentTurn: null,
     loading: false,
-    error: null
+    error: null,
+    soundOn: true
 }
 
 const sendMessage = (channel, message) => {
@@ -54,7 +55,6 @@ const saveTurn = (state, number) => {
     turn.status = actionTypes.ORDER_DELIVERED
     const updatedTurns = [...state.turns]
     updatedTurns[number] = turn
-    console.log('numero', number)
     sendMessage('save', { number: number, turn: updatedTurns[number] })
     const newCurrent = +number
     const newOne = updateObject(state, {
@@ -66,7 +66,6 @@ const saveTurn = (state, number) => {
 
 const updateTurn = (state, message) => {
     const turn = message.number.turn
-    console.log('llega a turns el turn ', turn)
     const updatedTurns = [...state.turns]
     updatedTurns[message.number.number] = turn
     const newOne = updateObject(state, {
@@ -106,6 +105,15 @@ const updateCurrent = (state, newCurrent) => {
     return updateObject(state, { currentTurn: newCurrent })
 }
 
+const toggleAudio = (state, bool) => {
+    console.log('cambiando el estado del audio', bool)
+    return updateObject(state, { soundOn: bool })
+}
+
+const setInitial = (state, number) => {
+    return updateObject(state, { currentTurn: number })
+}
+
 const reducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case actionTypes.GENERATE_TURN: return generateTurn(state, payload)
@@ -117,6 +125,8 @@ const reducer = (state = initialState, { type, payload }) => {
         case actionTypes.LOAD_BACKUP_START: return loadBackupStart(state)
         case actionTypes.LOAD_BACKUP_SUCCESSED: return setPreviousState(state, payload)
         case actionTypes.LOAD_BACKUP_FAILED: return loadBackupFailed(state, payload)
+        case actionTypes.TOGGLE_AUDIO: return toggleAudio(state, payload)
+        case actionTypes.SET_INITIAL: return setInitial(state, payload)
         default: return state
     }
 }

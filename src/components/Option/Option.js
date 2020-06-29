@@ -31,7 +31,7 @@ const Option = props => {
                 setCurrentOption(<Caller call={props.callTurn} />)
                 break
             case 'current':
-                setCurrentOption(<Current turn={props.turn} />)
+                setCurrentOption(<Current setInitial={props.setInitial} turn={props.turn} />)
                 break
             case 'save':
                 setCurrentOption(<Save save={props.saveTurn} />)
@@ -63,6 +63,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        setInitial: number => dispatch(actions.setInitial(number)),
         generateTurn: () => dispatch(actions.generateTurn()),
         callTurn: number => dispatch(actions.callTurn(number)),
         saveTurn: number => dispatch(actions.saveTurn(number))

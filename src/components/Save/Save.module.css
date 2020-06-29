@@ -5,20 +5,33 @@
   height: calc(100vh - 30px);
   margin-top: 30px;
   align-items: center;
+ 
 }
 
 .Number {
-    font-weight: 700;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.5rem;
-    height: 50%;
-    width: 42%;
+  font-weight: 700;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+  height: 50%;
+  width: 42%;
+  padding: 30px;
+  align-items: center;
+  background-image: url('../../assets/images/caller_number.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 50%;
+  animation: altura 300ms linear 0s 500ms alternate;
+}
+
+@keyframes altura {
+  0% {
+    padding: 0;
+    height: 0;
+  }
+  100% {
     padding: 30px;
-    align-items: center;
-    background-image: url('../../assets/images/caller_number.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    max-width: 50%;
+    height: auto;
+  }
 }

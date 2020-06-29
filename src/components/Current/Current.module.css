@@ -4,9 +4,36 @@
   width: 100%;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .Number {
   font-size: 4rem;
   font-weight: 700;
+}
+
+.Number.Changing {
+  font-weight: 700;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+  height: 50%;
+  width: 42%;
+  padding: 30px;
+  align-items: center;
+  background-image: url('../../assets/images/caller_number.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 50%;
+}
+
+.Controllers {
+  flex-direction: column;
+}
+
+.Current,
+.Number,
+.Controllers {
+  transition: all ease-in-out 300ms;
 }

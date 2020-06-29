@@ -98,6 +98,12 @@ const ipcCommunication = () => {
         return
     })
 
+    ipcMain.on('audio_toggle', (e, message) => {
+        console.log('paso por aqui con el hombre lobo ')
+        secondWindow.webContents.send('audio_toggle', message)
+        return
+    })
+
     ipcMain.on('backup', (e, message) => {
         readFile(dataLocation, 'utf-8')
             .then(file => {
