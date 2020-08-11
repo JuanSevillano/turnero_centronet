@@ -49,6 +49,7 @@ export const loadBackup = () => {
     return dispatch => {
         dispatch(loadBackupStart())
         ipc.on('backup_loaded', (e, data) => {
+            console.log(data)
             dispatch(loadBackupSuccessed(data))
         })
     }
@@ -59,6 +60,12 @@ export const toggleAudio = bool => ({
     type: actionTypes.TOGGLE_AUDIO,
     payload: bool
 })
+
+export const toggleVoice = bool => ({
+    type: actionTypes.TOGGLE_AUDIO,
+    payload: bool
+})
+
 
 export const setInitial = number => ({
     type: actionTypes.SET_INITIAL,

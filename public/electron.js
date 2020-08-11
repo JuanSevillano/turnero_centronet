@@ -1,10 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron')
 
 const path = require('path')
 const fs = require('fs')
 const { promisify } = require('util')
-const dataLocation = path.resolve('./src/store/persistence.json')
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 
@@ -14,18 +13,44 @@ autoUpdater.autoDownload = true
 
 
 
+
 // Auto-updater check for available updates
 const sendUpdateToFront = message => mainWindow.webContents.send('update', message)
 
+
+
+// PERSIANTENCE DATA LOCATION
+const dataLocation = path.join(app.getPath('appData'), 'turnero/store')
+// const dataLocation = path.join(__dirname, '../store')
+const url = dataLocation + '/persistence.json'
 
 if (isDev) {
     autoUpdater.logger = require('electron-log')
     autoUpdater.logger.transports.file.level = 'info'
 }
 
+// Creating the Store folder for persisntace data
+if (!fs.existsSync(dataLocation)) {
+    fs.mkdir(dataLocation, (err => {
+        if (err) throw err;
+    }))
+}
+
 let mainWindow, secondWindow;
 function createWindow() {
     // Create the browser window.
+
+    var displays = screen.getAllDisplays();
+    var externalDisplay = null;
+    for (var i in displays) {
+        if (displays[i].bounds.x != 0 || displays[i].bounds.y != 0) {
+            externalDisplay = displays[i];
+            break;
+        }
+    }
+
+
+
     mainWindow = new BrowserWindow({
         width: 300,
         height: 350,
@@ -36,18 +61,31 @@ function createWindow() {
             enableRemoteModule: true
         }
     })
-
-    secondWindow = new BrowserWindow({
-        width: 1080,
-        height: 720,
-        frame: false,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: true,
-            enableRemoteModule: true
-        }
-    })
-
+    if (externalDisplay) {
+        secondWindow = new BrowserWindow({
+            width: 1080,
+            height: 720,
+            frame: false,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                nodeIntegration: true,
+                enableRemoteModule: true
+            },
+            x: externalDisplay.bounds.x + 50,
+            y: externalDisplay.bounds.y + 50
+        })
+    } else {
+        secondWindow = new BrowserWindow({
+            width: 1080,
+            height: 720,
+            frame: false,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                nodeIntegration: true,
+                enableRemoteModule: true
+            }
+        })
+    }
     // and load the index.html of the app.
     const localUrl = 'http://localhost:3000/'
     mainWindow.loadURL(
@@ -59,27 +97,22 @@ function createWindow() {
     )
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
     // secondWindow.webContents.openDevTools()
 
     // Sending message to home, to make react redirect to /turner path
     secondWindow.webContents.on('dom-ready', () => {
 
         secondWindow.webContents.send('onLocation', { url: '/turner' })
-        ipcCommunication()
 
     })
 
     mainWindow.webContents.on('dom-ready', () => {
         autoUpdater.checkForUpdatesAndNotify()
-        sendUpdateToFront('checking updates...')
-
-        mainWindow.webContents.on('waiting', ({ number, turn }) => {
-            console.log(number, turn)
-        })
     })
 
 }
+
 
 // This method is executed when the second screen's DOM element are loaded
 const ipcCommunication = () => {
@@ -99,13 +132,17 @@ const ipcCommunication = () => {
     })
 
     ipcMain.on('audio_toggle', (e, message) => {
-        console.log('paso por aqui con el hombre lobo ')
         secondWindow.webContents.send('audio_toggle', message)
         return
     })
 
+    ipcMain.on('voice_toggle', (e, message) => {
+        secondWindow.webContents.send('voice_toggle', message)
+        return
+    })
+
     ipcMain.on('backup', (e, message) => {
-        readFile(dataLocation, 'utf-8')
+        readFile(url, 'utf-8')
             .then(file => {
                 const prevState = JSON.parse(file)
 
@@ -116,7 +153,7 @@ const ipcCommunication = () => {
                 const waitingOnes = prevState.turns
                     .map((t, i) => ({ ...t, number: i }))
                     .filter(t => t.status === 'ORDER_WAITING')
-
+                // Check the max number in turns
                 let max = 0
                 for (let turn of waitingOnes) {
                     const number = turn.number
@@ -126,24 +163,27 @@ const ipcCommunication = () => {
                 secondWindow.webContents.send('backup_delivering', delivering)
                 mainWindow.webContents.send('backup_current', max)
 
-            }).catch(err => new Error(err))
+            }).catch(err => mainWindow.webContents.send('error', err))
 
         return
     })
 
     ipcMain.on('backup_save', (e, message) => {
-        writeFile(dataLocation, JSON.stringify(message))
+        writeFile(url, JSON.stringify(message))
             .then(file => null)
-            .catch(err => new Error(err))
+            .catch(err => mainWindow.webContents.send('error', err))
         return
     })
 }
+
+ipcCommunication()
 
 // When Electron app is ready
 app.whenReady().then(() => {
     // Creating the windows 
     createWindow()
     // Check for new release
+    // Deleted for problems with the github pipeline 
 
     // MacOs re-create windows when logo is clicked 
     app.on('activate', function () {

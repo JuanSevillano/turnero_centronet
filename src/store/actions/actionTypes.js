@@ -7,6 +7,7 @@ export const SET_INITIAL = 'SET_INITIAL'
 // export const GO_PREVIOUS_TURN = 'GO_PREVIOUS_TURN'
 export const UPDATE_CURRENT = 'UPDATE_CURRENT'
 export const TOGGLE_AUDIO = 'TOGGLE_AUDIO'
+export const TOGGLE_VOICE = 'TOGGLE_VOICE' 
 
 export const ORDER_FREE = 'ORDER_FREE'
 export const ORDER_DELIVERING = 'ORDER_DELIVERING'

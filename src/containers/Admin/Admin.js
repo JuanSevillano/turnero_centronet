@@ -22,10 +22,18 @@ const Admin = props => {
     }
 
     useEffect(() => {
+        ipc.on('error', (e, data) => {
+            console.log('Error: ', data)
+        })
+
         ipc.on('backup_current', (e, data) => {
-            console.log('llega ', data)
             props.updateCurrent(data)
         })
+
+        return () => {
+            ipc.removeAllListeners('error')
+            ipc.removeAllListeners('backup_current')
+        }
     }, [props]);
 
     return (

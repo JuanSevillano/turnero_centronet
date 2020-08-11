@@ -8,7 +8,8 @@ const initialState = {
     currentTurn: null,
     loading: false,
     error: null,
-    soundOn: true
+    soundOn: true,
+    voiceOn: false
 }
 
 const sendMessage = (channel, message) => {
@@ -106,12 +107,26 @@ const updateCurrent = (state, newCurrent) => {
 }
 
 const toggleAudio = (state, bool) => {
-    console.log('cambiando el estado del audio', bool)
     return updateObject(state, { soundOn: bool })
 }
 
+const toggleVoice = (state, bool) => {
+    return updateObject(state, { voiceOn: bool })
+}
+
 const setInitial = (state, number) => {
-    return updateObject(state, { currentTurn: number })
+    const updatedTurns = [...state.turns].map((t, i) => {
+        if (i <= number) {
+            return { ...t, status: actionTypes.ORDER_WAITING }
+        } else {
+            return t
+        }
+    })
+
+    return updateObject(state, {
+        currentTurn: number,
+        turns: updatedTurns
+    })
 }
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -126,6 +141,7 @@ const reducer = (state = initialState, { type, payload }) => {
         case actionTypes.LOAD_BACKUP_SUCCESSED: return setPreviousState(state, payload)
         case actionTypes.LOAD_BACKUP_FAILED: return loadBackupFailed(state, payload)
         case actionTypes.TOGGLE_AUDIO: return toggleAudio(state, payload)
+        case actionTypes.TOGGLE_VOICE: return toggleVoice(state, payload)
         case actionTypes.SET_INITIAL: return setInitial(state, payload)
         default: return state
     }

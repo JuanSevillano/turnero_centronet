@@ -15,6 +15,8 @@ const Turner = props => {
 
 
     const [playing, toggle] = useAudio(sound)
+    const [voiceOn, setVoiceOn] = useState(props.voiceOn)
+    let isOn
 
     // const waiting = props.turns.map((el, i) => {
     //     if (el.status === actionTypes.ORDER_WAITING) {
@@ -27,50 +29,80 @@ const Turner = props => {
     //     }
     // })
 
+    let ultimito = 0
     const delivering = props.turns.map((el, i) => {
         if (el.status === actionTypes.ORDER_DELIVERING) {
-
-            return (
-                <div key={i}>
-                    {i}
-                </div>
-            )
+            ultimito = ultimito < i ? i : ultimito
+            return <div key={i}> {i}</div>
         }
     })
+
+    const deliveringButLastOne = delivering.filter((el, i) => i !== ultimito)
+    const lastOne = delivering.filter((el, i) => i === delivering.length)
+
+    const checkSound = ({ number }) => {
+        if (isOn) {
+            toggle()
+        }
+
+        if (voiceOn) {
+            const msg = new SpeechSynthesisUtterance(`Turno número, ${number}`);
+            msg.lang = 'es-ES'
+            window.speechSynthesis.speak(msg);
+        }
+    }
 
 
     useEffect(() => {
 
-        ipc.on('waiting', (event, message) => {
+        isOn = props.soundOn
+
+
+        const updateTurn = (event, message) => {
             props.updateTurn(message)
             return
-        })
+        }
 
-        ipc.on('call', (event, message) => {
-            props.updateTurn(message)
-            if (props.soundOn) {
-                toggle()
-            }
-            return
-        })
-
-        ipc.on('save', (event, message) => {
-            props.updateTurn(message)
-            return
-        })
-
-
-        ipc.on('audio_toggle', (event, message) => {
+        const toggleAudio = (event, message) => {
             props.toggleAudio(message)
             return
-        })
+        }
 
-        ipc.on('backup_delivering', (event, message) => {
+        const toggleVoice = (e, message) => {
+            setVoiceOn(prev => !prev)
+            props.toggleVoice(message)
+            return
+        }
+
+        const updateTurns = (event, message) => {
             props.updateTurns(message)
             return
-        })
+        }
 
-    }, [])
+        const callTurn = (event, message) => {
+            props.updateTurn(message)
+            checkSound(message)
+            return
+        }
+
+        ipc.on('waiting', updateTurn)
+        ipc.on('call', callTurn)
+        ipc.on('save', updateTurn)
+        ipc.on('audio_toggle', toggleAudio)
+        ipc.on('voice_toggle', toggleVoice)
+        ipc.on('backup_delivering', updateTurns)
+
+
+        return () => {
+            ipc.removeAllListeners('waiting', updateTurn)
+            ipc.removeAllListeners('call', callTurn)
+            ipc.removeAllListeners('save', updateTurn)
+            ipc.removeAllListeners('audio_toggle', toggleAudio)
+            ipc.removeAllListeners('voice_toggle', toggleVoice)
+            ipc.removeAllListeners('backup_delivering', updateTurns)
+        }
+
+    }, [props])
 
     return (
         <div className={classes.Turner}>
@@ -83,8 +115,11 @@ const Turner = props => {
             </section> */}
             <section className={classes.Column} id={classes.Entrega}>
                 <ul className={classes.List}>
-                    {delivering}
+                    {deliveringButLastOne}
                 </ul >
+            </section>
+            <section>
+                <span className={classes.LastOne}>{ultimito !== 0 ? ultimito : null}</span>
             </section>
         </div>
     );
@@ -94,13 +129,15 @@ const mapStateToProps = state => {
     return {
         turns: state.turns,
         turn: state.currentTurn,
-        soundOn: state.soundOn
+        soundOn: state.soundOn,
+        voiceOn: state.voiceOn
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         toggleAudio: bool => dispatch(actions.toggleAudio(bool)),
+        toggleVoice: bool => dispatch(actions.toggleVoice(bool)),
         updateTurn: message => dispatch(actions.updateTurn(message)),
         updateTurns: turns => dispatch(actions.updateTurns(turns))
     }

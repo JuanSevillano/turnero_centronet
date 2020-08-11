@@ -41,7 +41,7 @@ const Current = (props) => {
 	return (
 		<div className={classes.Current}>
 			<section className={myClass}>
-				{props.turn ? null : <p>Sin turno</p>}
+				{props.turn || number ? null : <p>Sin turno</p>}
 				{number ? <p> {number} </p> : <p> {props.turn} </p>}
 			</section>
 

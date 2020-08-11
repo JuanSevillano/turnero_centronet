@@ -5,10 +5,10 @@ import classes from './Generator.module.css'
 const Generator = props => {
     const history = useHistory()
 
-    let number = props.turn + 1
+    let number = +props.turn + 1
     useEffect(() => {
         setTimeout(() => history.goBack(), 2000)
-    }, [props.turn]);
+    }, []);
 
     return (
         <div className={classes.Generator}>
