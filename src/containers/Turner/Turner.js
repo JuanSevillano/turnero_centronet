@@ -17,18 +17,6 @@ const Turner = props => {
     const [playing, toggle] = useAudio(sound)
     const [voiceOn, setVoiceOn] = useState(props.voiceOn)
     let isOn
-
-    // const waiting = props.turns.map((el, i) => {
-    //     if (el.status === actionTypes.ORDER_WAITING) {
-
-    //         return (
-    //             <div key={i}>
-    //                 {i}
-    //             </div>
-    //         )
-    //     }
-    // })
-
     let ultimito = 0
     const delivering = props.turns.map((el, i) => {
         if (el.status === actionTypes.ORDER_DELIVERING) {
@@ -41,17 +29,31 @@ const Turner = props => {
     const lastOne = delivering.filter((el, i) => i === delivering.length)
 
     const checkSound = ({ number }) => {
-        if (isOn) {
+
+
+        if (isOn && voiceOn) {
             toggle()
+            setTimeout(() => {
+                callNumber(number)
+            }, 1000)
         }
 
-        if (voiceOn) {
-            const msg = new SpeechSynthesisUtterance(`Turno número, ${number}`);
-            msg.lang = 'es-ES'
-            window.speechSynthesis.speak(msg);
+        if (!isOn && voiceOn) {
+            callNumber(number)
+        }
+
+        if (isOn && !voiceOn) {
+            toggle()
         }
     }
 
+    const callNumber = number => {
+        const synth = window.speechSynthesis
+        const msg = new SpeechSynthesisUtterance(`Turno número, ${number}`)
+        msg.volume = 2;
+        msg.lang = 'es-ES'
+        synth.speak(msg);
+    }
 
     useEffect(() => {
 
@@ -100,6 +102,7 @@ const Turner = props => {
             ipc.removeAllListeners('audio_toggle', toggleAudio)
             ipc.removeAllListeners('voice_toggle', toggleVoice)
             ipc.removeAllListeners('backup_delivering', updateTurns)
+            clearTimeout()
         }
 
     }, [props])
