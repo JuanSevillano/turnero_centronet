@@ -9,7 +9,8 @@ const initialState = {
     loading: false,
     error: null,
     soundOn: true,
-    voiceOn: false
+    voiceOn: false,
+    displays: []
 }
 
 const sendMessage = (channel, message) => {
@@ -129,6 +130,15 @@ const setInitial = (state, number) => {
     })
 }
 
+const saveDisplays = (state, displays) => {
+    return updateObject(state, { displays: displays })
+}
+
+const setSecondWindowDisplay = (state, displayId) => {
+    sendMessage('setSecondWindowDisplay', displayId)
+    return state
+}
+
 const reducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case actionTypes.GENERATE_TURN: return generateTurn(state, payload)
@@ -143,6 +153,8 @@ const reducer = (state = initialState, { type, payload }) => {
         case actionTypes.TOGGLE_AUDIO: return toggleAudio(state, payload)
         case actionTypes.TOGGLE_VOICE: return toggleVoice(state, payload)
         case actionTypes.SET_INITIAL: return setInitial(state, payload)
+        case actionTypes.SAVE_DISPLAYS: return saveDisplays(state, payload)
+        case actionTypes.SET_SECOND_WINDOW_DISPLAY: return setSecondWindowDisplay(state, payload)
         default: return state
     }
 }

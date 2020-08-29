@@ -36,11 +36,14 @@ if (!fs.existsSync(dataLocation)) {
     }))
 }
 
-let mainWindow, secondWindow;
+let mainWindow;
+let secondWindow;
+let displays;
+
 function createWindow() {
     // Create the browser window.
 
-    var displays = screen.getAllDisplays();
+    displays = screen.getAllDisplays();
     var externalDisplay = null;
     for (var i in displays) {
         if (displays[i].bounds.x != 0 || displays[i].bounds.y != 0) {
@@ -49,11 +52,17 @@ function createWindow() {
         }
     }
 
-
+    let x = 0, y = 0, w = 1080, h = 720;
+    if (externalDisplay) {
+        x = externalDisplay.bounds.x
+        y = externalDisplay.bounds.y
+        h = externalDisplay.bounds.height
+        w = externalDisplay.bounds.width
+    }
 
     mainWindow = new BrowserWindow({
-        width: 300,
-        height: 350,
+        width: 400,
+        height: 400,
         frame: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -61,31 +70,22 @@ function createWindow() {
             enableRemoteModule: true
         }
     })
-    if (externalDisplay) {
-        secondWindow = new BrowserWindow({
-            width: 1080,
-            height: 720,
-            frame: false,
-            webPreferences: {
-                preload: path.join(__dirname, 'preload.js'),
-                nodeIntegration: true,
-                enableRemoteModule: true
-            },
-            x: externalDisplay.bounds.x + 50,
-            y: externalDisplay.bounds.y + 50
-        })
-    } else {
-        secondWindow = new BrowserWindow({
-            width: 1080,
-            height: 720,
-            frame: false,
-            webPreferences: {
-                preload: path.join(__dirname, 'preload.js'),
-                nodeIntegration: true,
-                enableRemoteModule: true
-            }
-        })
-    }
+
+    secondWindow = new BrowserWindow({
+        width: w,
+        height: h,
+        x: x,
+        y: y,
+        frame: false,
+        movable: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: true,
+            enableRemoteModule: true
+        }
+    })
+
+
     // and load the index.html of the app.
     const localUrl = 'http://localhost:3000/'
     mainWindow.loadURL(
@@ -108,6 +108,8 @@ function createWindow() {
     })
 
     mainWindow.webContents.on('dom-ready', () => {
+
+        mainWindow.webContents.send('onDisplaysLoaded', displays)
         autoUpdater.checkForUpdatesAndNotify()
     })
 
@@ -172,6 +174,15 @@ const ipcCommunication = () => {
         writeFile(url, JSON.stringify(message))
             .then(file => null)
             .catch(err => mainWindow.webContents.send('error', err))
+        return
+    })
+
+    ipcMain.on('setSecondWindowDisplay', (e, displayId) => {
+        const display = displays.find(d => d.id === displayId)
+        const _x = display.bounds.x
+        const _y = display.bounds.y
+        secondWindow.setPosition(_x, _y, true)
+        secondWindow.setSize(display.bounds.width, display.bounds.height, true)
         return
     })
 }

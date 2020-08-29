@@ -1,6 +1,9 @@
 import React from 'react';
-import classes from './Home.module.css'
 
+import { connect } from 'react-redux'
+import * as actions from '../../store/actions/actions'
+
+import classes from './Home.module.css'
 import Header from '../../components/Navigation/Header'
 
 const ipcRenderer = window.ipcRenderer
@@ -10,6 +13,12 @@ const Home = props => {
 
     // When is secondScreen it receives the url to be loaded 
     ipcRenderer.on('onLocation', (event, { url }) => { props.history.push(url) })
+
+    ipcRenderer.on('onDisplaysLoaded', (e, data) => {
+        console.log('llegan los datos a home', data)
+        props.saveDisplays(data)
+    })
+
 
     ipcRenderer.on('update', (e, data) => {
         console.log('Update... ', data)
@@ -24,4 +33,8 @@ const Home = props => {
     )
 }
 
-export default Home
+const mapDispatchToProps = dispatch => ({
+    saveDisplays: displays => dispatch(actions.saveDisplays(displays))
+})
+
+export default connect(null, mapDispatchToProps)(Home)

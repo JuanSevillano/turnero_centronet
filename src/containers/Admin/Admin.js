@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom'
 import Header from '../../components/Navigation/Header'
 import Card from '../../components/UI/Card/Card'
 
-import * as actionTypes from '../../store/actions/actionTypes'
 import * as actions from '../../store/actions/actions'
 
 const ipc = window.ipcRenderer

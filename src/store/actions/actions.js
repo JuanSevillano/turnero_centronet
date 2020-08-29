@@ -55,7 +55,6 @@ export const loadBackup = () => {
     }
 }
 
-
 export const toggleAudio = bool => ({
     type: actionTypes.TOGGLE_AUDIO,
     payload: bool
@@ -66,8 +65,17 @@ export const toggleVoice = bool => ({
     payload: bool
 })
 
-
 export const setInitial = number => ({
     type: actionTypes.SET_INITIAL,
     payload: number
+})
+
+export const saveDisplays = displays => ({
+    type: actionTypes.SAVE_DISPLAYS,
+    payload: displays
+})
+
+export const setSecondWindowDisplay = displayId => ({
+    type: actionTypes.SET_SECOND_WINDOW_DISPLAY,
+    payload: displayId
 })

@@ -9,6 +9,7 @@ import classes from './Settings.module.css'
 import sonido from '../../assets/speaker.svg'
 import backup from '../../assets/recuperar.svg'
 import speech from '../../assets/speech.svg'
+import Dropdown from '../UI/Dropdown/Dropdown'
 
 const ipc = window.ipcRenderer
 
@@ -18,6 +19,7 @@ const Settings = props => {
     const [loadPrevious, setLoadPrevious] = useState(false)
     const [soundOn, setSoundOn] = useState(true)
     const [voiceOn, setVoiceOn] = useState(false)
+    const [display, setDisplay] = useState(0)
 
     const misClases = [classes.slider, classes.round].join(' ')
     const isLoading = loadPrevious ? [classes.reloadSingle, classes.animate].join(' ') : classes.reloadSingle
@@ -38,6 +40,11 @@ const Settings = props => {
         setVoiceOn(prev => !prev)
     }
 
+    const sendDisplay = (id, index) => {
+        setDisplay(index)
+        props.setDisplay(id)
+    }
+
     useEffect(() => {
         ipc.send('audio_toggle', soundOn)
         return () => {
@@ -45,6 +52,7 @@ const Settings = props => {
             ipc.removeAllListeners('voice_toggle')
         }
     }, [soundOn, voiceOn]);
+
 
     return (
         <>
@@ -81,6 +89,12 @@ const Settings = props => {
                     </div>
                 </section>
                 <section className={classes.Wrapper}>
+                    <div className={classes.TextInfo}>
+                        <p>Ubicar turnero en pantalla</p>
+                    </div>
+                    <Dropdown value={display} options={props.displays} selected={sendDisplay} />
+                </section>
+                <section className={classes.Wrapper}>
                     <div className={classes.TexWarning}>
                         <p>Recuerda desactivar el sonido cada vez que entres a <strong>Configuracion</strong>
                         </p>
@@ -93,7 +107,12 @@ const Settings = props => {
 
 
 const mapDispatchToProps = dispatch => ({
-    getBackup: () => dispatch(actions.loadBackup())
+    getBackup: () => dispatch(actions.loadBackup()),
+    setDisplay: id => dispatch(actions.setSecondWindowDisplay(id))
 })
 
-export default connect(null, mapDispatchToProps)(Settings)
+const mapStateToProps = state => ({
+    displays: state.displays
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

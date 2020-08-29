@@ -5,11 +5,12 @@
 }
 
 .Cards > * {
-  flex-basis: 50%;
+  flex-basis: 45%;
 }
 
 .Cards {
   width: 100%;
   flex-wrap: wrap;
   margin-top: 30px;
+  justify-content: space-around;
 }
