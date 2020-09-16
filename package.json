@@ -1,6 +1,6 @@
 {
   "name": "turnero",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./public/electron.js",
   "homepage": "./",
   "author": "@JuanSevillano",
@@ -27,7 +27,6 @@
           "provider": "github",
           "owner": "juanSevillano",
           "repo": "turnero_centronet",
-          "token": "04ca69c8a285a65bd324e13729dfcef686fe40df",
           "private": false
         }
       ]
